@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 // ("",  '.') -> [""]
 // ("11", '.') -> ["11"]
@@ -10,6 +11,33 @@
 // ("11.", '.') -> ["11", ""]
 // (".11", '.') -> ["", "11"]
 // ("11.22", '.') -> ["11", "22"]
+
+std::vector<int> toInt(const std::vector<std::string> &ip)
+{
+    std::vector<int> out;
+    for (const auto& oct : ip)
+    {
+        out.push_back(std::stoi(oct));
+    }
+    return out;
+}
+
+void printIpPool(const std::vector<std::vector<int>> &ip_pool)
+{
+    for (const auto &ip : ip_pool)
+    {
+        for (auto oct = ip.cbegin(); oct != ip.cend(); ++oct)
+        {
+            if (oct != ip.cbegin())
+            {
+                std::cout << ".";
+            }
+            std::cout << *oct;
+        }
+        std::cout << std::endl;
+    }
+}
+
 std::vector<std::string> split(const std::string &str, char d)
 {
     std::vector<std::string> r;
@@ -33,29 +61,15 @@ int main(int argc, char const *argv[])
 {
     try
     {
-        std::vector<std::vector<std::string>> ip_pool;
+        std::vector<std::vector<int>> ip_pool;
 
         for(std::string line; std::getline(std::cin, line);)
         {
             std::vector<std::string> v = split(line, '\t');
-            ip_pool.push_back(split(v.at(0), '.'));
+            ip_pool.push_back(toInt(split(v.at(0), '.')));
         }
 
         // TODO reverse lexicographically sort
-
-        for(std::vector<std::vector<std::string> >::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
-        {
-            for(std::vector<std::string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-            {
-                if (ip_part != ip->cbegin())
-                {
-                    std::cout << ".";
-
-                }
-                std::cout << *ip_part;
-            }
-            std::cout << std::endl;
-        }
 
         // 222.173.235.246
         // 222.130.177.64
@@ -66,6 +80,7 @@ int main(int argc, char const *argv[])
         // 1.1.234.8
 
         // TODO filter by first byte and output
+        printIpPool(ip_pool);
         // ip = filter(1)
 
         // 1.231.69.33
