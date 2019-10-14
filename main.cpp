@@ -38,6 +38,11 @@ void printIpPool(const std::vector<std::vector<int>> &ip_pool)
     }
 }
 
+void reverceSortIpPool(std::vector<std::vector<int>> &ip_pool){
+    std::sort(ip_pool.begin(), ip_pool.end());
+    std::reverse(ip_pool.begin(), ip_pool.end());
+}
+
 std::vector<std::string> split(const std::string &str, char d)
 {
     std::vector<std::string> r;
@@ -80,6 +85,9 @@ int main(int argc, char const *argv[])
         // 1.1.234.8
 
         // TODO filter by first byte and output
+        printIpPool(ip_pool);
+        reverceSortIpPool(ip_pool);
+        std::cout << std::endl;
         printIpPool(ip_pool);
         // ip = filter(1)
 
