@@ -85,10 +85,17 @@ std::vector<std::vector<int>> filterIpPool(
     std::vector<int> values = {args...};
 
     for (std::vector<int> ip: ip_pool){
-        for (auto i=0; i < values.size(); ++i){
-            std::cout << i << std::endl;
+        bool is_right = true;
+        for (auto i = 0; i < values.size(); ++i){
+            if (ip[i]!=values[i]) {
+                is_right = false;
+            }
+        }
+        if (is_right){
+            filteredIpPool.push_back(ip);
         }
     }
+    return filteredIpPool;
 
 }
 
@@ -107,7 +114,7 @@ int main(int argc, char const *argv[])
         // reverse lexicographically sort
 
         reverceSortIpPool(ip_pool);
-//        printIpPool(ip_pool);
+        printIpPool(ip_pool);
 
         // 222.173.235.246
         // 222.130.177.64
@@ -119,7 +126,7 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first byte and output
         // ip = filter(1)
-        filterIpPool(ip_pool, 1, 2);
+        printIpPool(filterIpPool(ip_pool, 1));
         // 1.231.69.33
         // 1.87.203.225
         // 1.70.44.170
@@ -128,6 +135,7 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first and second bytes and output
         // ip = filter(46, 70)
+        printIpPool(filterIpPool(ip_pool, 46, 70));
 
         // 46.70.225.39
         // 46.70.147.26
@@ -136,7 +144,8 @@ int main(int argc, char const *argv[])
 
         // TODO filter by any byte and output
         // ip = filter_any(46)
-//        printIpPool(filterIpPoolAny(ip_pool, 46));
+        printIpPool(filterIpPoolAny(ip_pool, 46));
+
         // 186.204.34.46
         // 186.46.222.194
         // 185.46.87.231
