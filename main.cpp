@@ -12,6 +12,7 @@
 // (".11", '.') -> ["", "11"]
 // ("11.22", '.') -> ["11", "22"]
 
+
 std::vector<int> toInt(const std::vector<std::string> &ip)
 {
     std::vector<int> out;
