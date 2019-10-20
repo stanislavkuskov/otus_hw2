@@ -1,6 +1,7 @@
 //
 // Created by kuskov on 20.10.2019.
 //
+#define BOOST_TEST_MODULE ip_filter_test_module
 
 #include "lib.h"
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(ip_filter VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+project(ip_filter VERSION 0.0.1$ENV{TRAVIS_BUILD_NUMBER})
 
 find_package(Threads REQUIRED)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
@@ -8,12 +8,13 @@ find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 configure_file(version.h.in ${PROJECT_SOURCE_DIR}/version.h)
 
 add_executable(ip_filter main.cpp)
+
 add_library(ip_filter_lib lib.cpp)
 
 add_executable(test_version test_version.cpp)
 
 set_target_properties(ip_filter ip_filter_lib test_version PROPERTIES
-        CXX_STANDARD 14
+        CXX_STANDARD 17
         CXX_STANDARD_REQUIRED ON
         COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
         )
@@ -49,4 +50,4 @@ include(CPack)
 
 enable_testing()
 
-add_test(ip_filter_lib_tests test_version)
+add_test(ip_filter_tests test_version)
