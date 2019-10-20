@@ -34,7 +34,7 @@ target_link_libraries(test_version
     ip_filter_lib
 )
 
-install(TARGETS ip_filter RUNTIME DESTINATION bin)
+install(TARGETS ip_filter_lib RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
@@ -50,4 +50,4 @@ include(CPack)
 
 enable_testing()
 
-add_test(ip_filter_lib_tests test_version)
+add_test(ip_filter_lib_lib_tests test_version)
