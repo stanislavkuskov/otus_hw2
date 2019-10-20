@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
-project(ip_filter VERSION 0.0.1$ENV{TRAVIS_BUILD_NUMBER})
+project(ip_filter VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 
 find_package(Threads REQUIRED)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
@@ -17,15 +17,9 @@ set_target_properties(ip_filter ip_filter_lib test_ip_filter PROPERTIES
         COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
         )
 
-target_link_libraries(ip_filter
-        ip_filter_lib
-        Threads::Threads
-        )
+target_link_libraries(ip_filter ip_filter_lib Threads::Threads)
 
-target_link_libraries(test_ip_filter
-        ${Boost_LIBRARIES}
-        ip_filter_lib
-        )
+target_link_libraries(test_ip_filter ${Boost_LIBRARIES} ip_filter_lib)
 
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
 
