@@ -10,22 +10,28 @@ configure_file(version.h.in ${PROJECT_SOURCE_DIR}/version.h)
 add_executable(ip_filter main.cpp)
 add_library(ip_filter_lib lib.cpp)
 
-add_executable(test_ip_filter test_ip_filter.cpp)
+add_executable(test_version test_version.cpp)
 
-set_target_properties(ip_filter ip_filter_lib test_ip_filter PROPERTIES
+set_target_properties(ip_filter ip_filter_lib test_version PROPERTIES
         CXX_STANDARD 14
         CXX_STANDARD_REQUIRED ON
         COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
         )
 
-set_target_properties(test_ip_filter PROPERTIES
+set_target_properties(test_version PROPERTIES
         COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
         INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
         )
 
-target_link_libraries(ip_filter ip_filter_lib Threads::Threads)
+target_link_libraries(ip_filter
+        ip_filter_lib
+        Threads::Threads
+)
 
-target_link_libraries(test_ip_filter ${Boost_LIBRARIES} ip_filter_lib)
+target_link_libraries(test_version
+        ${Boost_LIBRARIES}
+        ip_filter_lib
+)
 
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
 
@@ -43,4 +49,4 @@ include(CPack)
 
 enable_testing()
 
-add_test(ip_filter_lib_tests test_ip_filter)
+add_test(ip_filter_lib_tests test_version)
