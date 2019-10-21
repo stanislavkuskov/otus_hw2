@@ -87,7 +87,7 @@ std::vector<std::vector<int>> filterIpPool(
 
     for (std::vector<int> ip: ip_pool){
         bool is_right = true;
-        for (auto i = 0; i < values.size(); ++i){
+        for (auto i = 0; i < (int)values.size(); ++i){
             if (ip[i]!=values[i]) {
                 is_right = false;
             }
