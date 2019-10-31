@@ -12,6 +12,7 @@
 // (".11", '.') -> ["", "11"]
 // ("11.22", '.') -> ["11", "22"]
 
+using ipPoolVector = std::vector<std::vector<int>>;
 
 std::vector<int> toInt(const std::vector<std::string> &ip)
 {
@@ -23,7 +24,7 @@ std::vector<int> toInt(const std::vector<std::string> &ip)
     return out;
 }
 
-void printIpPool(const std::vector<std::vector<int>> &ip_pool)
+void printIpPool(const ipPoolVector &ip_pool)
 {
     for (const auto &ip : ip_pool)
     {
@@ -39,9 +40,8 @@ void printIpPool(const std::vector<std::vector<int>> &ip_pool)
     }
 }
 
-void reverceSortIpPool(std::vector<std::vector<int>> &ip_pool){
-    std::sort(ip_pool.begin(), ip_pool.end());
-    std::reverse(ip_pool.begin(), ip_pool.end());
+void reverseSortIpPool(ipPoolVector &ip_pool){
+    std::sort(ip_pool.rbegin(), ip_pool.rend());
 }
 
 std::vector<std::string> split(const std::string &str, char d)
@@ -63,26 +63,27 @@ std::vector<std::string> split(const std::string &str, char d)
     return r;
 }
 
-std::vector<std::vector<int>> filterIpPoolAny(const std::vector<std::vector<int>>& ip_pool, const int& value){
-    std::vector<std::vector<int>> filteredIpPool;
-    for (const std::vector<int>& ip: ip_pool){
-        for (const int& oct: ip){
-            if (oct == value){
-                filteredIpPool.push_back(ip);
-                break;
+ipPoolVector filterIpPoolAny(const ipPoolVector& ip_pool, const int& value){
+    ipPoolVector filteredIpPool;
+    std::copy_if(
+            ip_pool.begin(), ip_pool.end(), std::back_inserter(filteredIpPool),[&value](const auto ip)
+            {
+                return std::any_of(ip.begin(), ip.end(), [&value](const int &oct)
+                {
+                    return oct == value;
+                });
             }
-        }
-    }
+    );
     return filteredIpPool;
 }
 
 template<typename... Args>
-std::vector<std::vector<int>> filterIpPool(
-        const std::vector<std::vector<int>> &ip_pool,
+ipPoolVector filterIpPool(
+        const ipPoolVector &ip_pool,
         Args const & ... args
         ){
 
-    std::vector<std::vector<int>> filteredIpPool;
+    ipPoolVector filteredIpPool;
     std::vector<int> values = {args...};
 
     for (std::vector<int> ip: ip_pool){
@@ -104,7 +105,7 @@ int main(int argc, char const *argv[])
 {
     try
     {
-        std::vector<std::vector<int>> ip_pool;
+        ipPoolVector ip_pool;
 
         for(std::string line; std::getline(std::cin, line);)
         {
@@ -114,7 +115,7 @@ int main(int argc, char const *argv[])
 
         // reverse lexicographically sort
 
-        reverceSortIpPool(ip_pool);
+        reverseSortIpPool(ip_pool);
         printIpPool(ip_pool);
 
         // 222.173.235.246
