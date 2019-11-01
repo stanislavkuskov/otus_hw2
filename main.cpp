@@ -64,9 +64,8 @@ std::vector<std::string> split(const std::string &str, char d)
 }
 
 ipPoolVector filterIpPoolAny(const ipPoolVector& ip_pool, const int& value){
-    ipPoolVector filteredIpPool;
-    std::copy_if(
-            ip_pool.begin(), ip_pool.end(), std::back_inserter(filteredIpPool),[&value](const auto ip)
+    ipPoolVector filtered_ip_pool;
+    std::copy_if(ip_pool.begin(), ip_pool.end(), std::back_inserter(filtered_ip_pool), [&value](const auto ip)
             {
                 return std::any_of(ip.begin(), ip.end(), [&value](const int &oct)
                 {
@@ -74,32 +73,21 @@ ipPoolVector filterIpPoolAny(const ipPoolVector& ip_pool, const int& value){
                 });
             }
     );
-    return filteredIpPool;
+    return filtered_ip_pool;
 }
 
 template<typename... Args>
-ipPoolVector filterIpPool(
-        const ipPoolVector &ip_pool,
-        Args const & ... args
-        ){
-
-    ipPoolVector filteredIpPool;
+ipPoolVector filterIpPool(const ipPoolVector &ip_pool, Args const & ... args){
+    ipPoolVector filtered_ip_pool;
     std::vector<int> values = {args...};
-
-    for (std::vector<int> ip: ip_pool){
-        bool is_right = true;
-        for (auto i = 0; i < (int)values.size(); ++i){
-            if (ip[i]!=values[i]) {
-                is_right = false;
+    std::copy_if(ip_pool.begin(), ip_pool.end(), std::back_inserter(filtered_ip_pool), [&values](const auto ip)
+            {
+                return std::equal(ip.begin(), ip.begin() + values.size(), values.begin());
             }
-        }
-        if (is_right){
-            filteredIpPool.push_back(ip);
-        }
-    }
-    return filteredIpPool;
-
+    );
+    return filtered_ip_pool;
 }
+
 
 int main(int argc, char const *argv[])
 {
