@@ -41,7 +41,7 @@ void printIpPool(const ipPoolVector &ip_pool)
 }
 
 void reverseSortIpPool(ipPoolVector &ip_pool){
-    std::sort(ip_pool.rbegin(), ip_pool.rend());
+    std::sort(ip_pool.begin(), ip_pool.end(), std::greater<>());
 }
 
 std::vector<std::string> split(const std::string &str, char d)
